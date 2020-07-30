@@ -1,7 +1,9 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import MagnifierIcon from 'assets/icons/magnifier.svg';
 
-const Input = styled.input`
+const StyledInput = styled.input`
   border: none;
   background: #191924;
   border-radius: 30px;
@@ -20,5 +22,28 @@ const Input = styled.input`
       background-position: 15px 55%;
     `}
 `;
+
+const InputError = styled.p`
+  font-size: ${({ theme }) => theme.fontSize.xs};
+  padding: 0;
+  margin: 0 15px 10px;
+`;
+
+const Input = ({ errors, ...props }) => {
+  return (
+    <>
+      <StyledInput {...props} />
+      {errors && <InputError>{errors}</InputError>}
+    </>
+  );
+};
+
+Input.propTypes = {
+  errors: PropTypes.string,
+};
+
+Input.defaultProps = {
+  errors: null,
+};
 
 export default Input;

@@ -15,13 +15,17 @@ const StyledWrapper = styled.div`
   right: 0;
   display: flex;
   flex-direction: column;
-  width: 500px;
+  width: 80vw;
   height: 100vh;
   background: #080810;
   padding: 50px;
   border-left: 5px solid ${({ theme }) => theme.secondary};
   transform: translateX(${({ isVisible }) => (isVisible ? '0' : '100%')});
   transition: transform 0.6s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+
+  @media (min-width: 768px) {
+    width: 500px;
+  }
 `;
 
 const StyledInput = styled(Input)`
@@ -41,15 +45,26 @@ const NewItemSidebar = ({ isVisible, toggleNewItemFormFn, addItem }) => (
       initialValues={{
         type: 'videos',
         title: '',
-        content: '',
+        description: '',
+        image: '',
         link: '',
+      }}
+      validate={(values) => {
+        const errors = {};
+        if (!values.title) {
+          errors.title = 'Title is required';
+        }
+        if (!values.link) {
+          errors.link = 'Link is required';
+        }
+        return errors;
       }}
       onSubmit={(values) => {
         addItem(values);
         toggleNewItemFormFn();
       }}
     >
-      {({ values, handleChange, handleBlur, handleSubmit, setFieldValue }) => (
+      {({ values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue }) => (
         <StyledForm onSubmit={handleSubmit}>
           <Radio
             name="type"
@@ -72,21 +87,30 @@ const NewItemSidebar = ({ isVisible, toggleNewItemFormFn, addItem }) => (
             value={values.title}
             onChange={handleChange}
             onBlur={handleBlur}
-          />
-          <StyledInput
-            type="text"
-            name="content"
-            as="textarea"
-            placeholder="Content"
-            value={values.content}
-            onChange={handleChange}
-            onBlur={handleBlur}
+            errors={errors.title && touched.title && errors.title}
           />
           <StyledInput
             type="text"
             name="link"
             placeholder="Link eg. www.youtube.com/xxx"
             value={values.link}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            errors={errors.link && touched.link && errors.link}
+          />
+          <StyledInput
+            type="text"
+            name="description"
+            placeholder="Additional description"
+            value={values.description}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+          <StyledInput
+            type="text"
+            name="image"
+            placeholder="Image url"
+            value={values.image}
             onChange={handleChange}
             onBlur={handleBlur}
           />
@@ -100,9 +124,13 @@ const NewItemSidebar = ({ isVisible, toggleNewItemFormFn, addItem }) => (
 );
 
 NewItemSidebar.propTypes = {
-  isVisible: PropTypes.bool.isRequired,
+  isVisible: PropTypes.bool,
   toggleNewItemFormFn: PropTypes.func.isRequired,
   addItem: PropTypes.func.isRequired,
+};
+
+NewItemSidebar.defaultProps = {
+  isVisible: false,
 };
 
 const mapDispatchToProps = (dispatch) => ({

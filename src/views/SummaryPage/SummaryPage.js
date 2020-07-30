@@ -10,8 +10,13 @@ import Paragraph from 'components/atoms/Paragraph/Paragraph';
 const StyledGridWrapper = styled.div`
   position: relative;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
   grid-gap: 30px;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: start;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 const StyledItemsWrapper = styled.div`
@@ -30,9 +35,9 @@ const SummaryPage = ({ articles, videos }) => (
       <Heading>Latest</Heading>
       <StyledGridWrapper>
         <StyledItemsWrapper>
-          {articles ? (
+          <StyledHeading>Articles</StyledHeading>
+          {articles.length ? (
             <>
-              <StyledHeading>Articles</StyledHeading>
               {articles.map(({ id, title, image, type }) => (
                 <Card id={id} title={title} image={image} type={type} key={id} />
               ))}
@@ -43,9 +48,9 @@ const SummaryPage = ({ articles, videos }) => (
         </StyledItemsWrapper>
 
         <StyledItemsWrapper>
-          {videos ? (
+          <StyledHeading>Videos</StyledHeading>
+          {videos.length ? (
             <>
-              <StyledHeading>Videos</StyledHeading>
               {videos.map(({ id, title, image, type }) => (
                 <Card id={id} title={title} image={image} type={type} key={id} />
               ))}
@@ -84,8 +89,8 @@ SummaryPage.defaultProps = {
 };
 
 const mapStateToProps = ({ articles, videos }) => ({
-  articles: articles.reverse().slice(0, 2),
-  videos: videos.reverse().slice(0, 2),
+  articles: articles.slice(0, 5),
+  videos: videos.slice(0, 5),
 });
 
 export default connect(mapStateToProps)(SummaryPage);

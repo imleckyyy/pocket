@@ -8,15 +8,22 @@ import { routes } from 'routes';
 const StyledWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 15px 15px 15px 0;
+  padding: 15px 0;
+`;
+
+const StyledButton = styled(Button)`
+  display: none;
+  @media (min-width: 768px) {
+    display: block;
+  }
 `;
 
 const TopBar = () => (
   <StyledWrapper>
     <Input search placeholder="Search..." />
-    <Button as={Link} to={routes.signin}>
+    <StyledButton as={Link} to={routes.signin}>
       Sign in
-    </Button>
+    </StyledButton>
   </StyledWrapper>
 );
 

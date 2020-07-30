@@ -4,4 +4,5 @@ export const routes = {
   video: '/videos/:id',
   articles: '/articles',
   article: '/articles/:id',
+  signin: '/signin',
 };

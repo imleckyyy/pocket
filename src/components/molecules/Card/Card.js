@@ -8,6 +8,7 @@ import Heading from 'components/atoms/Heading/Heading';
 import Button from 'components/atoms/Button/Button';
 
 const StyledImage = styled.img`
+  display: none;
   max-width: 200px;
   max-height: 100%;
   position: absolute;
@@ -17,6 +18,10 @@ const StyledImage = styled.img`
   transform: scale(0.3);
   transition: transform cubic-bezier(0.455, 0.03, 0.515, 0.955) 0.3s, opacity ease 0.5s;
   opacity: 0.1;
+
+  @media (min-width: 768px) {
+    display: block;
+  }
 `;
 
 const StyledWrapper = styled.div`
@@ -32,7 +37,11 @@ const StyledWrapper = styled.div`
 `;
 
 const StyledHeading = styled(Heading)`
-  font-size: ${({ theme }) => theme.fontSize.m};
+  font-size: ${({ theme }) => theme.fontSize.s};
+
+  @media (min-width: 768px) {
+    font-size: ${({ theme }) => theme.fontSize.m};
+  }
 `;
 
 const StyledButton = styled(Button)`
@@ -44,9 +53,9 @@ const Card = ({ id, type, title, image, removeItem }) => (
     <StyledHeading>{title}</StyledHeading>
     {image && <StyledImage src={image} />}
     <StyledButton as={Link} to={`/${type}/${id}`} secondary="true">
-      Zobacz
+      View
     </StyledButton>
-    <Button onClick={() => removeItem(id, type)}>Usuń</Button>
+    <Button onClick={() => removeItem(id, type)}>Remove</Button>
   </StyledWrapper>
 );
 

@@ -37,7 +37,7 @@ const DetailsPage = ({ item }) => {
         {image && <StyledImg src={image} alt={title} />}
         <StyledControlsWrapper>
           <StyledButton as="a" href={link} target="_blank">
-            Przejdź do strony
+            {link}
           </StyledButton>
         </StyledControlsWrapper>
       </StyledWrapper>

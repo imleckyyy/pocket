@@ -14,13 +14,18 @@ const StyledGridWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 30px;
+  align-items: start;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 const ArticlesPage = ({ items }) => (
   <StandardTemplate>
     <>
       <Heading>Articles</Heading>
-      {items ? (
+      {items.length ? (
         <StyledGridWrapper>
           {items.map(({ id, title, image, type }) => (
             <Card id={id} title={title} image={image} type={type} key={id} />

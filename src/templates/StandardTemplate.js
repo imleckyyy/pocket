@@ -15,8 +15,13 @@ const StyledContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding-left: 120px;
-  padding-right: 20px;
+  padding-left: 80px;
+  padding-right: 15px;
+
+  @media (min-width: 768px) {
+    padding-left: 120px;
+    padding-right: 20px;
+  }
 `;
 
 const StyledChildrenWrapper = styled.div`
@@ -31,6 +36,13 @@ const StyledPlusButton = styled(ButtonIcon)`
   bottom: 50px;
   right: 50px;
   z-index: 99;
+  width: 55px;
+  height: 55px;
+
+  @media (min-width: 768px) {
+    width: 75px;
+    height: 75px;
+  }
 `;
 
 const StandardTemplate = ({ children }) => {
