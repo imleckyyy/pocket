@@ -1,7 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { NavLink, Link } from 'react-router-dom';
 import { routes } from 'routes';
+import { connect } from 'react-redux';
+import { logout as logoutAction } from 'actions';
 import ButtonIcon from 'components/atoms/ButtonIcon/ButtonIcon';
 import LogoImage from 'assets/logo.svg';
 import VideoIcon from 'assets/icons/youtube.svg';
@@ -59,21 +62,45 @@ const StyledLoginButton = styled(ButtonIcon)`
   }
 `;
 
-const Sidebar = () => (
+const Sidebar = ({ userId, logout }) => (
   <StyledWrapper>
-    <StyledLogo as={NavLink} icon={LogoImage} to="/" />
+    <StyledLogo as={NavLink} icon={LogoImage} to={routes.home} />
     <StyledNav>
       <StyledList>
         <li>
-          <StyledListLink as={NavLink} icon={VideoIcon} to="/videos" activeclass="active" />
+          <StyledListLink as={NavLink} icon={VideoIcon} to={routes.videos} activeclass="active" />
         </li>
         <li>
-          <StyledListLink as={NavLink} icon={ArticleIcon} to="/articles" activeclass="active" />
+          <StyledListLink
+            as={NavLink}
+            icon={ArticleIcon}
+            to={routes.articles}
+            activeclass="active"
+          />
         </li>
       </StyledList>
     </StyledNav>
-    <StyledLoginButton icon={LoginIcon} as={Link} to={routes.signin} />
+    {userId ? (
+      <StyledLoginButton icon={LoginIcon} onClick={() => logout()} />
+    ) : (
+      <StyledLoginButton icon={LoginIcon} as={Link} to={routes.signin} />
+    )}
   </StyledWrapper>
 );
 
-export default Sidebar;
+Sidebar.propTypes = {
+  userId: PropTypes.string,
+  logout: PropTypes.func.isRequired,
+};
+
+Sidebar.defaultProps = {
+  userId: null,
+};
+
+const mapStateToProps = ({ userId }) => ({ userId });
+
+const mapDispatchToProps = (dispatch) => ({
+  logout: () => dispatch(logoutAction()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

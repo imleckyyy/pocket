@@ -7,6 +7,7 @@ import VideosPage from 'views/VideosPage/VideosPage';
 import ArticlesPage from 'views/ArticlesPage/ArticlesPage';
 import DetailsPage from 'views/DetailsPage/DetailsPage';
 import SignPage from 'views/SignPage/SignPage';
+import Loader from 'components/atoms/Loader/Loader';
 
 const Root = () => (
   <>
@@ -19,7 +20,9 @@ const Root = () => (
           <Route exact path={routes.articles} component={ArticlesPage} />
           <Route exact path={routes.article} component={DetailsPage} />
           <Route exact path={routes.signin} component={SignPage} />
+          <Route exact path={routes.signup} component={SignPage} />
         </Switch>
+        <Loader />
       </BrowserRouter>
     </MainTemplate>
   </>

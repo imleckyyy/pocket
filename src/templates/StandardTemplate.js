@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Redirect } from 'react-router-dom';
+import { routes } from 'routes';
+import { connect } from 'react-redux';
 import PlusIcon from 'assets/icons/plus.svg';
 import ButtonIcon from 'components/atoms/ButtonIcon/ButtonIcon';
 import Sidebar from 'components/organisms/Sidebar/Sidebar';
@@ -45,11 +48,12 @@ const StyledPlusButton = styled(ButtonIcon)`
   }
 `;
 
-const StandardTemplate = ({ children }) => {
+const StandardTemplate = ({ userId, children }) => {
   const [isNewItemFormVisible, toggleNewItemForm] = useState(false);
 
   return (
     <>
+      {!userId && <Redirect to={routes.signin} />}
       <StyledWrapper>
         <Sidebar />
         <StyledContentWrapper>
@@ -67,7 +71,14 @@ const StandardTemplate = ({ children }) => {
 };
 
 StandardTemplate.propTypes = {
+  userId: PropTypes.string,
   children: PropTypes.element.isRequired,
 };
 
-export default StandardTemplate;
+StandardTemplate.defaultProps = {
+  userId: null,
+};
+
+const mapStateToProps = ({ userId }) => ({ userId });
+
+export default connect(mapStateToProps)(StandardTemplate);

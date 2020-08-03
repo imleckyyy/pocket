@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { fetchItems } from 'actions';
 import PropTypes from 'prop-types';
 import StandardTemplate from 'templates/StandardTemplate';
 import Heading from 'components/atoms/Heading/Heading';
@@ -19,31 +20,38 @@ const StyledGridWrapper = styled.div`
   }
 `;
 
-const VideosPage = ({ items }) => (
-  <StandardTemplate>
-    <>
-      <Heading>Videos</Heading>
-      {items.length ? (
-        <StyledGridWrapper>
-          {items.map(({ id, title, image, type }) => (
-            <Card id={id} title={title} image={image} type={type} key={id} />
-          ))}
-        </StyledGridWrapper>
-      ) : (
-        <Paragraph>No items found :(</Paragraph>
-      )}
-    </>
-  </StandardTemplate>
-);
+const VideosPage = ({ items, fetchVideos }) => {
+  useEffect(() => {
+    fetchVideos();
+  }, [fetchVideos]);
+
+  return (
+    <StandardTemplate>
+      <>
+        <Heading>Videos</Heading>
+        {items.length ? (
+          <StyledGridWrapper>
+            {items.map(({ _id: id, title, image, type }) => (
+              <Card id={id} title={title} image={image} type={type} key={id} />
+            ))}
+          </StyledGridWrapper>
+        ) : (
+          <Paragraph>No items found :(</Paragraph>
+        )}
+      </>
+    </StandardTemplate>
+  );
+};
 
 VideosPage.propTypes = {
   items: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired,
+      _id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
     }),
   ),
+  fetchVideos: PropTypes.func.isRequired,
 };
 
 VideosPage.defaultProps = {
@@ -52,4 +60,8 @@ VideosPage.defaultProps = {
 
 const mapStateToProps = ({ videos }) => ({ items: videos });
 
-export default connect(mapStateToProps)(VideosPage);
+const mapDispatchToProps = (dispatch) => ({
+  fetchVideos: () => dispatch(fetchItems('videos')),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(VideosPage);

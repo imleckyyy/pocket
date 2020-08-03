@@ -5,7 +5,8 @@
   },
   "globals": {
     "document": true,
-    "window": true
+    "window": true,
+    "localStorage": true
   },
   "rules": {
     "react/jsx-filename-extension": [
@@ -16,7 +17,8 @@
     ],
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "import/prefer-default-export": 0,
-    "react/jsx-props-no-spreading": 0
+    "react/jsx-props-no-spreading": 0,
+    "no-underscore-dangle": ["error", { "allow": ["_id"] }]
   },
   "settings": {
     "import/resolver": {

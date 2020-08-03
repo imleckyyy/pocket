@@ -59,8 +59,9 @@ const NewItemSidebar = ({ isVisible, toggleNewItemFormFn, addItem }) => (
         }
         return errors;
       }}
-      onSubmit={(values) => {
+      onSubmit={(values, { resetForm }) => {
         addItem(values);
+        resetForm({});
         toggleNewItemFormFn();
       }}
     >
